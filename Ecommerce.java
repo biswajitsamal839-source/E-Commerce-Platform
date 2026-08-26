@@ -1,370 +1,596 @@
 import java.util.*;
+class Product
+{
+    int productId;
+    String productName;
+    double productPrice;
+    Product(int PID,String name, double price)
+    {
+        this.productId=PID;
+        this.productName=name;
+        this.productPrice=price;
+    }
+}
+class Electronics extends Product
+{
+    int warrenty;
+    Electronics(int PID,String name,double p,int Warrenty)
+    {
+        super(PID,name,p);
+        this.warrenty=Warrenty;
+    }
+    public void displayElectronics()
+    {
+        System.out.println("-----------------------");
+        System.out.println("PRODUCT ID:"+productId);
+        System.out.println("PRODUCT NAME:"+productName);
+        System.out.println("PRODUCT PRICE:"+productPrice);
+        System.out.println("WARRENTY:"+warrenty);
+        System.out.println("-----------------------");
+    }
+}
+class Clothing extends Product
+{
+    int size;
+    Clothing(int PID,String name,double p,int Size)
+    {
+        super(PID,name,p);
+        this.size=Size;
+    }
+    public void displayClothing()
+    {
+        System.out.println("-----------------------");
+        System.out.println("PRODUCT ID:"+productId);
+        System.out.println("PRODUCT NAME:"+productName);
+        System.out.println("PRODUCT PRICE:"+productPrice);
+        System.out.println("SIZE:"+size);
+        System.out.println("-----------------------");
+    }
+}
+class Books extends Product
+{
+    String author;
+    Books(int PID,String name,double p,String Author)
+    {
+        super(PID,name,p);
+        this.author=Author;
+    }
+    public void displayBooks()
+    {
+        System.out.println("-----------------------");
+        System.out.println("PRODUCT ID:"+productId);
+        System.out.println("PRODUCT NAME:"+productName);
+        System.out.println("PRODUCT PRICE:"+productPrice);
+        System.out.println("AUTHOR:"+author);
+        System.out.println("-----------------------");
+    }
+}
 class User
 {
     int userId;
     String name;
-    String email;
-    int password;
-    User(int id,String Uname,String Uemail,int Upassword)
+    /*static ArrayList <Electronics> electric1=new ArrayList<>();
+    static ArrayList <Clothing> cloths1=new ArrayList<>();
+    static ArrayList <Books> books=new ArrayList<>();*/
+    User(int UID ,String Name)
     {
-        this.userId=id;
-        this.name=Uname;
-        this.email=Uemail;
-        this.password=Upassword;
+        this.userId=UID;
+        this.name=Name;
     }
-    public void displayUser()
+}
+class Admin extends User
+{
+    int adminId;
+    Admin(int AUID,String AName, int AID)
     {
-        System.out.println("USER ID:"+userId);
-        System.out.println("USER NAME:"+name);
-        System.out.println("USER EMAIL:"+email);
-        System.out.println("USER PASSWORD:"+password);
+        super(AUID,AName);
+        this.adminId=AID;
+    }
+    public void addProduct()
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter 1 to add electronic product:");
+        System.out.println("Enter 2 to add clothing product:");
+        System.out.println("Enter 3 to add books products:");
+        System.out.println("Enter your choice:");
+        int ch=sc.nextInt();
+        switch(ch)
+        {
+            case 1:
+                System.out.println("Enter the product Id");
+                int id=sc.nextInt();
+                sc.nextLine();
+                System.out.println("Enter the product name");
+                String n=sc.nextLine();
+                System.out.println("Enter the product price:");
+                double p=sc.nextDouble();
+                System.out.println("Enter the product warrenty");
+                int w=sc.nextInt();
+                Electronics electric =new Electronics(id,n,p,w);
+                E_Commerce.electric1.add(electric);
+                break;
+            case 2:
+                System.out.println("Enter the product Id");
+                int id1=sc.nextInt();
+                sc.nextLine();
+                System.out.println("Enter the product name");
+                String n1=sc.nextLine();
+                System.out.println("Enter the product price:");
+                double p1=sc.nextDouble();
+                System.out.println("Enter the size:");
+                int s=sc.nextInt();
+                Clothing cloths=new Clothing(id1,n1,p1,s);
+                E_Commerce.cloths1.add(cloths);
+                break;
+            case 3:
+                System.out.println("Enter the product Id");
+                int id2=sc.nextInt();
+                sc.nextLine();
+                System.out.println("Enter the product name");
+                String n2=sc.nextLine();
+                System.out.println("Enter the product price:");
+                double p2=sc.nextDouble();
+                sc.nextLine();
+                System.out.println("Enter the author name:");
+                String aname=sc.nextLine();
+                Books book=new Books(id2,n2,p2,aname);
+                E_Commerce.books.add(book);
+                break;
+            default:
+                System.out.println("INVALID INPUT");
+                break;
+        }
+    }
+    public void deleteProduct()
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter 1 to delete electronic product:");
+        System.out.println("Enter 2 to delete clothing product:");
+        System.out.println("Enter 3 to delete books products:");
+        System.out.println("Enter your choice:");
+        int ch=sc.nextInt();
+        int a=0;
+        switch(ch)
+        {
+            case 1:
+                System.out.println("Enter the product id that is to be removed:");
+                int remove=sc.nextInt();
+                for(int i=0;i<E_Commerce.electric1.size();i++)
+                {
+                    Electronics rv=E_Commerce.electric1.get(i);
+                    if(remove==rv.productId)
+                    {
+                        E_Commerce.electric1.remove(i);
+                        a=a+1;
+                        break;
+                    }
+                }
+                if(a==0)
+                {
+                    System.out.println("Product Not Found");
+                }
+        }
+    }
+    public void displayProd()
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter 1 to view all electronic product:");
+        System.out.println("Enter 2 to view all clothing product:");
+        System.out.println("Enter 3 to view all books products:");
+        System.out.println("Enter your choice:");
+        int ch=sc.nextInt();
+        switch(ch)
+        {
+            case 1:
+                if(E_Commerce.electric1.size()>0)
+                {
+                    System.out.println("NAME             PRODUCT ID             PRICE");
+                    for(int i=0;i<E_Commerce.electric1.size();i++)
+                    {
+                        Electronics obj=E_Commerce.electric1.get(i);
+                        System.out.println(obj.productName+"          "+obj.productId+"            "+obj.productPrice);
+                    }
+                }
+                else
+                {
+                    System.out.println("NO PRODUCT LISTED");
+                }
+                break;
+            case 2:
+                if(E_Commerce.cloths1.size()>0)
+                {
+                    System.out.println("NAME             PRODUCT ID             PRICE");
+                    for(int i=0;i<E_Commerce.cloths1.size();i++)
+                    {
+                        Clothing obj1=E_Commerce.cloths1.get(i);
+                        System.out.println(obj1.productName+"          "+obj1.productId+"            "+obj1.productPrice);
+                    }
+                }
+                else
+                {
+                    System.out.println("NO PRODUCT LISTED");
+                }
+                break;
+            case 3:
+                if(E_Commerce.books.size()>0)
+                {
+                    System.out.println("NAME             PRODUCT ID             PRICE");
+                    for(int i=0;i<E_Commerce.books.size();i++)
+                    {
+                        Books obj2=E_Commerce.books.get(i);
+                        System.out.println(obj2.productName+"          "+obj2.productId+"            "+obj2.productPrice);
+                    }
+                }
+                else
+                {
+                    System.out.println("NO PRODUCT LISTED");
+                }
+                break;
+            default:
+                System.out.println("INVALID INPUT ");
+                break;
+        }
     }
 }
 class Customer extends User
 {
     int customerId;
-    Customer(int CUID, String CNAME, String CEMAIL, int CPASS, int CID)
+    
+    Customer(int UID,String name,int CID)
     {
-        super(CUID,CNAME,CEMAIL,CPASS);
+        super(UID,name);
         this.customerId=CID;
     }
     public void displayCustomer()
     {
-        System.out.println("CUSTOMER ID="+customerId);
-    }
-}
-class Admin extends User
-{
-    int AdminId;
-    Admin(int AUID, String ANAME, String AEMAIL, int APASS, int AID)
-    {
-        super(AUID,ANAME,AEMAIL,APASS);
-        this.AdminId=AID;
-    }
-    public void displayAdmin()
-    {
-        System.out.println("ADMIN ID="+AdminId);
-    }
-}
-class Product
-{
-    int productId;
-    String name;
-    int price;
-    int quantity;
-    Product(int ProductId,String PName,int Price, int Quantity)
-    {
-        this.productId=ProductId;
-        this.name=PName;
-        this.price=Price;
-        this.quantity=Quantity;
-    }
-    public void displayProduct()
-    {
-        System.out.println("PRODUCT ID:"+productId);
-        System.out.println("PRODUCT NAME:"+name);
-        System.out.println("PRODUCT PRICE:"+price);
-        System.out.println("PRODUCT QUANTITY:"+quantity);
-    }
-}
-class Electronics extends Product
-{
-    int warranty;
-    Electronics(int EID,String ENAME,int EPRICE,int EQUANTITY, int EWARRANTY)
-    {
-        super(EID,ENAME,EPRICE,EQUANTITY);
-        this.warranty=EWARRANTY;
-    }
-    public void displayElectronics()
-    {
-        System.out.println("WARRANTY:"+warranty);
-    }
-}
-class Clothing extends Product
-{
-    String size;
-    Clothing(int CID, String CNAME, int CPRICE,int CQUANTITY, String CSIZE)
-    {
-        super(CID,CNAME,CPRICE,CQUANTITY);
-        this.size=CSIZE;
-    }
-    public void displayClothing()
-    {
-        System.out.println("SIZE:"+size);
-    }
-}
-class Book extends Product
-{
-    String author;
-    Book(int BID,String BNAME,int BPRICE,int BQUANTITY,String BAUTHOR)
-    {
-        super(BID,BNAME,BPRICE,BQUANTITY);
-        this.author=BAUTHOR;
-    }
-    public void displayBook()
-    {
-        System.out.println("AUTHOR:"+author);
+            System.out.println("------------------------------------");
+            System.out.println("NAME:"+name);
+            System.out.println("CUSTOMER ID:"+customerId);
+            System.out.println("------------------------------------");
     }
 }
 class Cart
 {
-    Product products[]= new Product[10];
-    int count;
-    Cart()
+    int z=0;
+    static ArrayList<Product> cart=new ArrayList<>();
+    public void addCart(Product add1)
     {
-        count=0;
-    }
-    public void addProduct(Product product )
-    {
-        if(count < products.length)
-        {
-            products[count]=product;
-            count++;
-            System.out.println("PRODUCT ADDED SUCCESSFULLY");
-        }
-        else
-        {
-            System.out.println("CART FULL");
-        }
+        cart.add(add1);
     }
     public void displayCart()
     {
-        System.out.println("=====YOUR PRODUCTS=====");
-        for(int i=0;i<count;i++)
+        for(int i=0;i<cart.size();i++)
         {
-            System.out.println("--------------------------------");
-            products[i].displayProduct();
-            System.out.println("--------------------------------");
+            Product display=cart.get(i);
+            System.out.println("------------------------------------");
+            System.out.println("PRODUCT ID:"+display.productId);
+            System.out.println("PRODUCT NAME:"+display.productName);
+            System.out.println("PRODUCT ID:"+display.productPrice);
+            System.out.println("------------------------------------");
         }
     }
-    public void removeProduct()
+    public void deleteCart(int d)
     {
-        Scanner sc=new Scanner(System.in);
-        System.out.println("Enter the product index to remove:");
-        int a=sc.nextInt();
-        if(a>0 && a<count)
+        for(int i=0;i<cart.size();i++)
         {
-            for(int i=a;i<count-1;i++)
+            Product delete1=cart.get(i);
+            if(d == delete1.productId)
             {
-                products[i]=products[i+1];
+                cart.remove(i);
+                z=z+1;
+                break;
             }
-            count--;
         }
-        else
+        if(z==0)
         {
-            System.out.println("NO PRODUCT LISTED AT THIS INDEX IN YOUR CART");
+            System.out.println("Invalid Product Product Not Found");
         }
     }
 }
 class Order
 {
-    int orderId;
-    Product order[]=new Product[10];
-    int total=0;
-    int count=0;
-    Order(int OID)
+    ArrayList<Product> order=new ArrayList<>();
+    public void addOrder(int size,Cart order1)
     {
-        this.orderId=OID;
-    }
-    public void addProduct(Cart carts)
-    {
-        for(int i=0;i<carts.count;i++)
+        for(int j=0;j<size;j++)
         {
-            order[count]=carts.products[i];
-            count++;
+            order.add(order1.cart.get(j));
         }
     }
     public void displayOrder()
     {
-        System.out.println("======YOUR ORDER======");
-        System.out.println("==========================");
-        System.out.println("Order ID:"+orderId);
-        System.out.println("Product            Price");
-        for(int i=0;i<count;i++)
+        double sum=0.0;
+        System.out.println("PRODUCT NAME             PRICE");
+        System.out.println("-------------           ------");
+        for(int k=0;k<order.size();k++)
         {
-            System.out.println(order[i].name+"            "+order[i].price);
+            Product orders=order.get(k);
+            System.out.println(orders.productName+"             "+orders.productPrice);
+            sum=sum+orders.productPrice;
         }
-        System.out.println("TOTAL:            "+calculateTotal());
+        System.out.println("-------------------------------");
+        System.out.println("TOTAL AMOUNT:"+sum);
     }
-    double calculateTotal()
-    {
-       for(int i=0;i<count;i++)
-       {
-          total=total+order[i].price;
-       }
-       return total;
-    } 
 }
-public class Ecommerce
+public class E_Commerce
 {
+    public static ArrayList<Admin> admin=new ArrayList<>();
+    public static ArrayList<Customer> customer=new ArrayList<>();
+    public static ArrayList <Electronics> electric1=new ArrayList<>();
+    public static ArrayList <Clothing> cloths1=new ArrayList<>();
+    public static ArrayList <Books> books=new ArrayList<>();
     public static void main(String args[])
     {
         Scanner sc=new Scanner(System.in);
+        Cart display=new Cart();
         int choice;
-
         boolean loop;
         loop=true;
-        int a=1001;
-        Cart cartproducts=new Cart();
-        Order addorder=new Order(a);
         while(loop)
-        { 
-          System.out.println("1. ELECTRONICS");
-          System.out.println("2. CLOTHING");
-          System.out.println("3. BOOKS");
-          System.out.println("4. VIEW CART");
-          System.out.println("5. DELETE PRODUCT FROM CART");
-          System.out.println("6. PLACE ORDER");
-          System.out.println("7. VIEW ORDER");
-          System.out.println("8. EXIT");
-          System.out.println("Enter your catogory choice:");
-          int ch=sc.nextInt();
-          switch(ch)
-          { 
-            case 1:
-                {
+        {
+            System.out.println("Enter 1 for add admin:");
+            System.out.println("Enter 2 for add customer:");
+            System.out.println("Enter 3 for admin login:");
+            System.out.println("Enter 4 for customer login:");
+            System.out.println("Enter 5 for exit:");
+            System.out.println("Enter your choice:");
+            choice=sc.nextInt();
+            switch(choice)
+            {
+                case 1:
+                    {
+                        System.out.println("Enter the User ID:");
+                        int UID=sc.nextInt();
+                        sc.nextLine();
+                        System.out.println("Enter the User Name:");
+                        String name=sc.nextLine();
+                        System.out.println("Enter the Admin ID:");
+                        int AID=sc.nextInt();
+                        E_Commerce.admin.add(new Admin(UID,name,AID));
+                        break;
+                    }
+                case 2:
+                    {
+                        System.out.println("Enter the User ID:");
+                        int UID=sc.nextInt();
+                        sc.nextLine();
+                        System.out.println("Enter the Customer Name:");
+                        String name=sc.nextLine();
+                        System.out.println("Enter the customer ID:");
+                        int CID=sc.nextInt();
+                        E_Commerce.customer.add(new Customer(UID,name,CID));
+                        break;
+                    }
+                case 3:
+                    {
+                        System.out.println("Enter the User ID:");
+                        int userID=sc.nextInt();
+                        sc.nextLine();
+                        System.out.println("Enter the Admin Name:");
+                        String AName=sc.nextLine();
+                        System.out.println("Enter the Admin ID:");
+                        int adminID1=sc.nextInt();
+                        for(int i=0;i<admin.size();i++)
+                        {
+                            Admin obj=admin.get(i);
+                            if(adminID1==obj.adminId && AName.equals(obj.name) && userID==obj.userId)
+                            {
+                                boolean loop1;
+                                loop1=true;
+                                while(loop1)
+                                {
+                                    System.out.println("Enter 1 to add product:");
+                                    System.out.println("Enter 2 to delete product:");
+                                    System.out.println("Enter 3 to view customers:");
+                                    System.out.println("Enter 4 to view products:");
+                                    System.out.println("Enter 5 to exit:");
+                                    System.out.println("Enter your choice:");
+                                    int c=sc.nextInt();
+                                    switch(c)
+                                    {
+                                        case 1:
+                                            Admin ProductAdd=new Admin(userID,AName,adminID1);
+                                            ProductAdd.addProduct();
+                                            break;
+                                        case 2:
+                                            Admin ProductDelete=new Admin(userID,AName,adminID1);
+                                            ProductDelete.deleteProduct();
+                                            break;
+                                        case 3:
+                                            for(int j=0;j<customer.size();j++)
+                                            {
+                                                Customer custobj=customer.get(j);
+                                                custobj.displayCustomer();
+                                            }
+                                            break;
+                                        case 4:
+                                            Admin show=new Admin(userID,AName,adminID1);
+                                            show.displayProd();
+                                            break;
+                                        case 5:
+                                            loop1=false;
+                                            System.out.println("PLATFORM UPDATED");
+                                            break;
+                                        default:
+                                            System.out.println("INVALID INPUT");
+                                            break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("ADMIN NOT FOUND INVALID ADMIN");
+                            }
+                        }
+                        break;
 
-                  Electronics electric[]=new Electronics[5];
-                  electric[0]=new Electronics(101,"Laptop",50000,5,5);
-                  electric[1]=new Electronics(102,"Headphone",1500,5,3);
-                  electric[2]=new Electronics(103,"Microphone",50000,5,5);
-                  electric[3]=new Electronics(104,"Phone",25000,5,3);
-                  electric[4]=new Electronics(105,"Charger",1000,5,1);
-                  for(int i=0;i<5;i++)
-                   {
-                       System.out.println("-----------------------------");
-                       electric[i].displayProduct();
-                       electric[i].displayElectronics();
-                       System.out.println("-----------------------------");
-                   }
-                   System.out.println("Enter 1 if you want to add anything to cart:");
-                    System.out.println("Enter 2 if you don't want to add anything to cart and exit from here :");
-                    int n=sc.nextInt();
-                    if(n==1)
-                    {
-                          System.out.println("Enter the product id to add to the cart:");
-                          choice=sc.nextInt();
-                          for(int j=0;j<5;j++)
-                          {
-                              if(choice == electric[j].productId)
-                              {
-                              cartproducts.addProduct(electric[j]);
-                              }
-                          }
-                    } 
-                    else
-                    {
-                        System.out.println("EXIT FROM ELECTRONICS ");
                     }
-                    break;     
-                }
-             case 2:
-                {
-                    Clothing cloths[]=new Clothing[5];
-                    cloths[0]=new Clothing(201,"Shirt",500,5,"M");
-                    cloths[1]=new Clothing(202,"T-Shirt",600,5,"S");
-                    cloths[2]=new Clothing(203,"Jeans",1200,5,"L");
-                    cloths[3]=new Clothing(204,"Trousers",1000,5,"XL");
-                    cloths[4]=new Clothing(205,"Shoes",2000,5,"8");
-                    for(int i=0;i<5;i++)
+                case 4:
                     {
-                        System.out.println("---------------------------------- ");
-                        cloths[i].displayProduct();
-                        cloths[i].displayClothing();
-                        System.out.println("---------------------------------- ");
-                    }
-                    System.out.println("Enter 1 if you want to add to cart: ");
-                    System.out.println("Enter 2 if you dont want to add to cart and exit from here: ");
-                    int m=sc.nextInt();
-                    if(m==1)
-                    {
-                        System.out.println("Enter the product ID: ");
-                        int choice1=sc.nextInt();
-                        for(int j=0;j<5;j++)
+                        System.out.println("Enter User ID:");
+                        int CId=sc.nextInt();
+                        sc.nextLine();
+                        System.out.println("Enter the customer name:");
+                        String CN=sc.nextLine();
+                        System.out.println("Enter the Customer ID:");
+                        int Cid=sc.nextInt();
+                        Customer customer1 =new Customer(CId,CN,Cid);
+                        User objuser=new User(CId,CN);
+                        for(int i=0;i<customer.size();i++)
                         {
-                            if(choice1 == cloths[j].productId)
-                            {
-                                cartproducts.addProduct(cloths[j]);
+                            Customer cust=E_Commerce.customer.get(i);
+                            if(CId == cust.userId && CN.equals(cust.name) && Cid == cust.customerId)
+                            {    
+                                Order object=new Order();
+
+                                boolean loop2;
+                                loop2=true;
+                                while(loop2)
+                                {
+                                System.out.println("Enter 1 for Electronics");
+                                System.out.println("Enter 2 for Clothing");
+                                System.out.println("Enter 3 for Books");
+                                System.out.println("Enter 4 to view cart");
+                                System.out.println("Enter 5 to delete product from cart");
+                                System.out.println("Enter 6 to place order");
+                                System.out.println("Enter 7 for view placed orders and order details");
+                                System.out.println("Enter 8 to exit");
+                                System.out.println("Enter your choice:");
+                                int choiceC=sc.nextInt();
+                                switch(choiceC)
+                                {
+                                    case 1:
+                                        System.out.println("=====CATLOGUE=====");
+                                        for(int k=0;k<E_Commerce.electric1.size();k++)
+                                        {
+                                            Electronics print=E_Commerce.electric1.get(k);
+                                            print.displayElectronics();
+                                        }
+                                        System.out.println("Enter 1 if you want to add anything to cart:");
+                                        System.out.println("Enter 2 if you don't want to add anything to cart:");
+                                        int n=sc.nextInt();
+                                        if(n==1)
+                                        {
+                                            System.out.println("Enter the product ID that is to be added:");
+                                            int idadd=sc.nextInt();
+                                            for(int l=0;i<E_Commerce.electric1.size();i++)
+                                            {
+                                                Electronics add1=E_Commerce.electric1.get(l);
+                                                if(idadd == add1.productId)
+                                                {
+                                                    //Cart add2=new Cart();
+                                                    display.addCart(add1);
+                                                    System.out.println("Product Added Successfully");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            System.out.println("Exit Successful from Electronics Catlogue");
+                                        }
+                                        break;
+                                    case 2:
+                                        System.out.println("=====CATLOGUE=====");
+                                        for(int k=0;k<E_Commerce.cloths1.size();k++)
+                                        {
+                                            Clothing print=E_Commerce.cloths1.get(k);
+                                            print.displayClothing();
+                                        }
+                                        System.out.println("Enter 1 if you want to add anything to cart:");
+                                        System.out.println("Enter 2 if you don't want to add anything to cart:");
+                                        int n1=sc.nextInt();
+                                        if(n1==1)
+                                        {
+                                            System.out.println("Enter the product ID that is to be added:");
+                                            int idadd=sc.nextInt();
+                                            for(int l=0;i<E_Commerce.cloths1.size();i++)
+                                            {
+                                                Clothing add1=E_Commerce.cloths1.get(l);
+                                                if(idadd == add1.productId)
+                                                {
+                                                    //Cart add2=new Cart();
+                                                    display.addCart(add1);
+                                                    System.out.println("Product Added Successfully");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            System.out.println("Exit Successful from Electronics Catlogue");
+                                        }
+                                        break;
+                                    case 3:
+                                        System.out.println("=====CATLOGUE=====");
+                                        for(int k=0;k<E_Commerce.books.size();k++)
+                                        {
+                                            Books print=E_Commerce.books.get(k);
+                                            print.displayBooks();
+                                        }
+                                        System.out.println("Enter 1 if you want to add anything to cart:");
+                                        System.out.println("Enter 2 if you don't want to add anything to cart:");
+                                        int n2=sc.nextInt();
+                                        if(n2==1)
+                                        {
+                                            System.out.println("Enter the product ID that is to be added:");
+                                            int idadd=sc.nextInt();
+                                            for(int l=0;i<E_Commerce.books.size();i++)
+                                            {
+                                                Books add1=E_Commerce.books.get(l);
+                                                if(idadd == add1.productId)
+                                                {
+                                                    //Cart add2=new Cart();
+                                                    display.addCart(add1);
+                                                    System.out.println("Product Added Successfully");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            System.out.println("Exit Successful from Electronics Catlogue");
+                                        }
+                                        break;
+                                    case 4:
+                                        System.out.println("=====YOUR CART=====");
+                                        display.displayCart();
+                                        break;
+                                    case 5:
+                                        System.out.println("Enter the product ID that is to be deleted :");
+                                        int del=sc.nextInt();
+                                        display.deleteCart(del);
+                                        break;
+                                    case 6:
+                                        //Order object=new Order();
+                                        object.addOrder(display.cart.size(),display);
+                                        display.cart.clear();
+                                        break;
+                                    case 7:
+                                        int OID=100001;
+                                        //Order print=new Order();
+
+                                        System.out.println("ORDER ID:"+OID);
+                                        System.out.println("-----------------------------");
+                                        object.displayOrder();
+                                        OID++;
+                                        break;
+                                    case 8:
+                                        loop=false;
+                                        System.out.println("THANK YOU VISIT AGAIN");
+                                        break;
+                                    default:
+                                        System.out.println("INVALID INPUT");
+                                        break;
+                                }
                             }
                         }
                     }
-                    else
+                    break;
+                }
+                default:
                     {
-                        System.out.println("EXIT FROM CLOTHING CATEGORY ");
+                        System.out.println("INVALID INPUT");
+                        break;
                     }
-                    break;
-                }
-             case 3:
-                {
-                    Book books[]=new Book[10];
-                    books[0]=new Book(301,"Python",400,5,"Herbert Schildt");
-                    books[1]=new Book(302,"Java",500,5,"AI Sweigart");
-                    books[2]=new Book(303,"CSS",350,5,"John Duckett");
-                    books[3]=new Book(304,"HTML",450,5,"John Duckett");
-                    books[4]=new Book(305,"Java Script",550,5,"Douglas Crockford");
-                    for(int i=0;i<5;i++)
-                    {
-                        System.out.println("---------------------------------- ");
-                        books[i].displayProduct();
-                        books[i].displayBook();
-                        System.out.println("---------------------------------- ");
-                    }
-                    System.out.println("Enter 1 if you want to add items to the cart: ");
-                    System.out.println("Enter 2 if you don't want to add items to the cart: ");
-                    int ch2=sc.nextInt();
-                    if(ch2==1)
-                    {
-                        System.out.println("Enter the product ID that is to be added: ");
-                        int f=sc.nextInt();
-                        for(int j=0;j<5;j++)
-                        {
-                            if(f == books[j].productId)
-                            {
-                                cartproducts.addProduct(books[j]);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        System.out.println("EXIT FROM BOOKS CATEGORY");
-                    }
-                    break;
-                }
-             case 4:
-                {;
-                    cartproducts.displayCart();
-                    break;
-                }
-             case 5:
-                {
-                    cartproducts.removeProduct();
-                    break;
-                }
-             case 6:
-                {
-                    addorder.addProduct(cartproducts);
-                    a++;
-                    System.out.println("Order Placed SUccessfully");
-                    break;
-                }
-             case 7:
-                {
-                    addorder.displayOrder();
-                    a++;
-                    break;
-                }
-             case 8:
-                {
-                    loop=false;
-                    System.out.println("THANK YOU VISIT AGAIN");
-                    break;
-                }
-             default:
-                {
-                    System.out.println("INVALID INPUT");
-                    break;
-                }
-           }
-       }
+            }
+        }
     }
 }
